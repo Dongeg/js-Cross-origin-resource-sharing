@@ -5,7 +5,11 @@ js跨域访问的方法
 
 1.jsonp
 
-因为 <code><script src='xxx.com'></script></code> 不受同源策略的影响，所以可以用它来跨域，称为jsonp
+因为
+```html
+<script src='xxx.com'></script>
+```
+不受同源策略的影响，所以可以用它来跨域，称为jsonp
 
 Jsonp原理： 
 
