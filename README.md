@@ -5,7 +5,19 @@ js跨域访问的方法
 
 1.jsonp
 
-因为<code><script src="xxx.com"></script></code>不受同源策略的影响，所以可以用它来跨域，称为jsonp
+因为 <code><script src='xxx.com'></script></code> 不受同源策略的影响，所以可以用它来跨域，称为jsonp
+
+Jsonp原理： 
+
+首先在客户端注册一个callback, 然后把callback的名字传给服务器。
+
+此时，服务器先生成 json 数据。
+
+然后以 javascript 语法的方式，生成一个function , function 名字就是传递上来的参数 jsonp.
+
+最后将 json 数据直接以入参的方式，放置到 function 中，这样就生成了一段 js 语法的文档，返回给客户端。
+
+客户端浏览器，解析script标签，并执行返回的 javascript 文档，此时数据作为参数，传入到了客户端预先定义好的 callback 函数里.（动态执行回调函数）
 
 <h3>使用方法</h3>
 
@@ -25,7 +37,7 @@ echo $callback."($result)"; //字符串拼接  返回 jsonpCallback(a:1,b:2,etc)
 
 ```
 1.原生使用
-```
+```js
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />  
 <script type="text/javascript">  
     function jsonpCallback(result) {  
@@ -39,6 +51,18 @@ echo $callback."($result)"; //字符串拼接  返回 jsonpCallback(a:1,b:2,etc)
 </script>  
 <script type="text/javascript" src="http://crossdomain.com/services.php?callback=jsonpCallback"></script>  
 ```
+其中 jsonCallback 是客户端注册的，获取 跨域服务器 上的json数据 后，回调的函数。
+
+http://crossdomain.com/services.php?callback=jsonpCallback
+
+这个 url 是跨域服务 器取 json 数据的接口，参数为回调函数的名字，返回的格式为
+
+jsonpCallback({msg:'this is json data'})  
+
+
+
+
+
 2.用jquery
 $.getJSON
 ```js
@@ -51,7 +75,7 @@ $.getJSON
 
 ```
 $.ajax
-```
+```js
     $.ajax({  
         url:"http://crossdomain.com/services.php",  
         dataType:'jsonp',  
@@ -66,7 +90,7 @@ $.ajax
     }); 
 ```
 $.get
-```
+```js
 $.get('http://crossdomain.com/services.php?callback=?', {name: encodeURIComponent('tester')}, function (json) { 
   for(var i in json) alert(i+":"+json[i]); 
 }, 'jsonp'); 
