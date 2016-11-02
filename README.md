@@ -3,7 +3,7 @@ js跨域资源共享
 
 js跨域访问的方法
 
-1.jsonp
+<h3>1.jsonp</h3>
 
 因为
 ```html
@@ -101,3 +101,17 @@ $.get('http://crossdomain.com/services.php?callback=?', {name: encodeURIComponen
 ```
 
 <a href="http://justcoding.iteye.com/blog/1366102/">参考链接</a>
+
+<h3>XMLHttpRequest Level 2</h3>
+直接在服务点添加如下头信息
+```php
+//php
+header('Accress-Control-Allow-Origin:*');
+header('Accress-Control-Allow-Method:POST,GET');
+```
+<h3>CORS</h3>
+<a href="http://www.ruanyifeng.com/blog/2016/04/cors.html">参考链接</a>
+
+
+
+
